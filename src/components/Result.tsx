@@ -8,7 +8,7 @@ type Props = {
 
 export const Result = ({ data, show }: Props) => {
 
-    const { infos, linksImage } = data.result;
+    const { informacoes, linksImage } = data.result;
 
     return (
         <div>
@@ -26,7 +26,7 @@ export const Result = ({ data, show }: Props) => {
                         <h2 className="text-xl uppercase font-bold">Informações</h2>
                     </div>
                     <div className="flex flex-col justify-between">
-                        {infos.map((info, index) => (
+                        {informacoes.map((info, index) => (
                             <ul key={index}>
                                 <li>{info}</li>
                             </ul>
