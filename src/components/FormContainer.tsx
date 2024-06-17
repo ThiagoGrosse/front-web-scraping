@@ -11,9 +11,7 @@ export const FormContainer = () => {
     const [loading, setLoading] = useState(false);
     const [dataResult, setDataResult] = useState<DataResult>({
         result: {
-            infos: [],
-            disponibilidade: '',
-            valor: '',
+            informacoes: [],
             linksImage: [],
         }
     });
