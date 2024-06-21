@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider"
+
+import { ThemeProvider } from "@/components/theme-provider";
+import { Header } from "@/components/Header/Header";
+import { Footer } from "@/components/Footer/Footer";
+
+import ReactQueryProvider from "@/contexts/ReactQueryProvider";
+import { LoadingProvider } from "@/contexts/LogginProvider";
 
 import { cn } from "@/lib/utils";
 
@@ -22,18 +28,26 @@ export default function RootLayout({
     return (
         <html lang="pt-br" suppressHydrationWarning>
             <body className={cn(
-                "min-h-screen bg-background font-sans antialiased",
+                "h-screen bg-background font-sans antialiased px-5",
                 fontSans.variable
             )}>
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                    disableTransitionOnChange
-                >
-                    {children}
-                </ThemeProvider>
+                <LoadingProvider>
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="system"
+                        enableSystem
+                        disableTransitionOnChange
+                    >
+                        <ReactQueryProvider>
+                            <Header />
+                            <main className="max-w-[350px] lg:max-w-[980px]">
+                                {children}
+                            </main>
+                            <Footer />
+                        </ReactQueryProvider>
+                    </ThemeProvider>
+                </LoadingProvider>
             </body>
         </html>
-    );
+    )
 }

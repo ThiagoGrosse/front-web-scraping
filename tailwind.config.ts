@@ -78,7 +78,35 @@ const config = {
             },
         },
     },
-    plugins: [require("tailwindcss-animate")],
+    plugins: [
+        require("tailwindcss-animate"),
+        function ({ addUtilities }: { addUtilities: Function }) {
+            interface NewUtilities {
+                [key: string]: {
+                    display: string;
+                    "-webkit-line-clamp": string;
+                    "-webkit-box-orient": string;
+                    overflow: string;
+                    "text-overflow": string;
+                    "white-space": string;
+                };
+            }
+
+            const newUtilities: NewUtilities = {
+                ".truncate-2-lines": {
+                    display: "-webkit-box",
+                    "-webkit-line-clamp": "2",
+                    "-webkit-box-orient": "vertical",
+                    overflow: "hidden",
+                    "text-overflow": "ellipsis",
+                    "white-space": "normal",
+                },
+            };
+
+            // Adiciona as novas utilidades
+            addUtilities(newUtilities, ["responsive", "hover"]);
+        },
+    ],
 } satisfies Config;
 
 export default config;
