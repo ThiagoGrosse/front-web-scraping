@@ -1,4 +1,5 @@
 import { DataItemType } from "./DataItem";
+import { ErrorResponse } from "./ErrorResponse";
 
 export type DataResponseType = {
     success: boolean;

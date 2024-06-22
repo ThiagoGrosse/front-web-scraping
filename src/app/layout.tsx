@@ -6,7 +6,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/Header/Header";
 import { Footer } from "@/components/Footer/Footer";
 
-import ReactQueryProvider from "@/contexts/ReactQueryProvider";
 import { LoadingProvider } from "@/contexts/LogginProvider";
 
 import { cn } from "@/lib/utils";
@@ -38,13 +37,11 @@ export default function RootLayout({
                         enableSystem
                         disableTransitionOnChange
                     >
-                        <ReactQueryProvider>
-                            <Header />
-                            <main className="max-w-[350px] lg:max-w-[980px]">
-                                {children}
-                            </main>
-                            <Footer />
-                        </ReactQueryProvider>
+                        <Header />
+                        <main className="w-full">
+                            {children}
+                        </main>
+                        <Footer />
                     </ThemeProvider>
                 </LoadingProvider>
             </body>
