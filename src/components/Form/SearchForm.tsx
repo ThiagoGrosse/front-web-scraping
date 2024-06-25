@@ -19,7 +19,7 @@ type Props = {
     setTotalPage: (totalPage: number) => void,
 }
 
-export const SearchForm = ({ perPage, setPage, setDataError, setDataSearch,setTotalPage }: Props) => {
+export const SearchForm = ({ perPage, setPage, setDataError, setDataSearch, setTotalPage }: Props) => {
     const { handleSubmit, control, formState: { errors }, reset } = useForm<InputSearch>();
     const [searchValue, setSearchValue] = useState('');
     const { setLoading } = useLoading();
@@ -29,7 +29,7 @@ export const SearchForm = ({ perPage, setPage, setDataError, setDataSearch,setTo
             handleClearSearch();
         }
     }, [searchValue]);
-        
+
     const handleFormSearchSubmit: SubmitHandler<InputSearch> = async (e) => {
         setLoading(true);
         const searchTerm = e.search;
@@ -60,41 +60,43 @@ export const SearchForm = ({ perPage, setPage, setDataError, setDataSearch,setTo
     };
 
     return (
-        <form onSubmit={handleSubmit(handleFormSearchSubmit)}>
-            <div className="flex items-center">
-                <div className="relative w-full">
-                    <Controller
-                        control={control}
-                        name='search'
-                        defaultValue=""
-                        rules={{ required: "Campo obrigatório", minLength: { value: 4, message: "Mínimo de 4 caracteres" }, maxLength: { value: 100, message: "Máximo de 100 caracteres" } }}
-                        render={({ field, fieldState }) => (
-                            <Input
-                                {...field}
-                                value={field.value}
-                                placeholder="Buscar..."
-                                onChange={(e) => {
-                                    field.onChange(e);
-                                    setSearchValue(e.target.value);
-                                }}
-                                aria-invalid={errors.search ? "true" : "false"}
-                                style={{ border: fieldState.invalid ? '1px solid red' : '1px solid #fff' }}
-                            />
+        <form onSubmit={handleSubmit(handleFormSearchSubmit)} className="py-5 px-2 h-full">
+            <div className="flex">
+                <div className="flex items-center w-full">
+                    <div className="relative w-full">
+                        <Controller
+                            control={control}
+                            name='search'
+                            defaultValue=""
+                            rules={{ required: "Campo obrigatório", minLength: { value: 4, message: "Mínimo de 4 caracteres" }, maxLength: { value: 100, message: "Máximo de 100 caracteres" } }}
+                            render={({ field, fieldState }) => (
+                                <Input
+                                    {...field}
+                                    value={field.value}
+                                    placeholder="Buscar..."
+                                    onChange={(e) => {
+                                        field.onChange(e);
+                                        setSearchValue(e.target.value);
+                                    }}
+                                    aria-invalid={errors.search ? "true" : "false"}
+                                    style={{ border: fieldState.invalid ? '1px solid red' : '1px solid transparent', }}
+                                />
 
-                        )}
-                    />
+                            )}
+                        />
+                    </div>
+                    {searchValue && (
+                        <button
+                            type="button"
+                            className="absolute right-[calc(50%-4rem)] sm:right-[calc(50%-5rem)] lg:right-[calc(50%+6rem)]"
+                            onClick={handleClearSearch}
+                        >
+                            <X className="h-5 w-5" aria-hidden="true" />
+                        </button>
+                    )}
                 </div>
-                {searchValue && (
-                    <button
-                        type="button"
-                        className="absolute right-24"
-                        onClick={handleClearSearch}
-                    >
-                        <X className="h-5 w-5" aria-hidden="true" />
-                    </button>
-                )}
-                <Button type="submit" className='ml-2 bg-transparent text-white active:bg-slate-800 hover:bg-slate-700'>
-                    <Search />
+                <Button type="submit" className='max-w-14 ml-2 p-2 bg-transparent text-white active:bg-slate-800 hover:bg-slate-700'>
+                    <Search size={26} strokeWidth={2.5} />
                 </Button>
             </div>
             {errors.search && (

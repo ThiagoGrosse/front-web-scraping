@@ -26,10 +26,11 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="pt-br" suppressHydrationWarning>
-            <body className={cn(
-                "h-screen bg-background font-sans antialiased px-5",
-                fontSans.variable
-            )}>
+            <body
+                className={cn(
+                    "min-h-screen bg-background font-sans antialiased",
+                    fontSans.variable
+                )}>
                 <LoadingProvider>
                     <ThemeProvider
                         attribute="class"
@@ -38,7 +39,7 @@ export default function RootLayout({
                         disableTransitionOnChange
                     >
                         <Header />
-                        <main className="w-full">
+                        <main className="max-w-xs sm:max-w-md lg:max-w-3xl xl:max-w-4xl mx-auto">
                             {children}
                         </main>
                         <Footer />

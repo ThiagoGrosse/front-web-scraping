@@ -12,21 +12,28 @@ type Props = {
 
 export const Paginate = ({ page, totalPages, setPage, setPerPage }: Props) => {
     const [currentGroup, setCurrentGroup] = useState<number[]>([]);
-    const groupPage = 3;
+    const [groupPage, setGroupPage] = useState(3);
 
     useEffect(() => {
         var startPage = 0;
         var endpage = 0;
 
-        if (page === 1) {
+        totalPages < 3 && setGroupPage(2);
+
+        if (groupPage === 2) {
             startPage = 1;
-            endpage = startPage + groupPage;
-        } else if (page === totalPages) {
-            startPage = totalPages - 2;
-            endpage = totalPages + 1;
+            endpage = 3;
         } else {
-            startPage = page - 1;
-            endpage = startPage + groupPage;
+            if (page === 1) {
+                startPage = 1;
+                endpage = startPage + groupPage;
+            } else if (page === totalPages) {
+                startPage = totalPages - 2;
+                endpage = totalPages + 1;
+            } else {
+                startPage = page - 1;
+                endpage = startPage + groupPage;
+            }
         }
 
         const newGroup = [];
@@ -38,37 +45,49 @@ export const Paginate = ({ page, totalPages, setPage, setPerPage }: Props) => {
     }, [page, totalPages, groupPage]);
 
     const handlePrevButton = () => {
-        setPage(page === 0 ? 0 : 1);
+        if (page === 1) {
+            setPage(1);
+        } else {
+            setPage(page - 1);
+        }
     };
 
     const handleNextButton = () => {
         setPage(page + 1);
     };
 
-    const handleSetPerPage = (event: ChangeEvent<HTMLSelectElement>) => {
-        const newPerPage = event.target.value;
-        setPerPage(parseInt(newPerPage));
-    };
-
     return (
-        <div className='flex items-center justify-center gap-5'>
-            <div className="flex justify-between gap-5">
+        <div className='flex items-center justify-center'>
+            <div className="flex justify-between items-center">
                 <button
                     type="button"
                     onClick={handlePrevButton}
                     disabled={page === 1}
                     className='disabled:opacity-50'
                 >
-                    <ChevronLeft />
+                    <ChevronLeft size={40} />
                 </button>
                 {currentGroup && currentGroup.map(item => (
                     <div
                         key={item}
-                        className={`border border-white py-1 px-2 rounded-md flex items-center ${item === page && 'bg-slate-700'}`}
+                        className={`cursor-pointer border border-slate-800 bg-slate-600 text-white dark:border-white w-12 h-12 mx-2 rounded-md flex justify-center items-center dark:bg-slate-900 ${item === page && 'bg-slate-400 dark:bg-slate-600'}`}
                         onClick={() => setPage(item)}>
                         <span>{item}</span>
                     </div>
                 ))}
+                {totalPages > groupPage && page <= (totalPages - 3) && (
+                    <>
+                        <div className="h-12 w-12 flex items-end justify-center">
+                            <span>...</span>
+                        </div>
+                        <div
+                            className="cursor-pointer border border-slate-800 bg-slate-600 text-white dark:border-white w-12 h-12 mx-2 rounded-md flex justify-center items-center dark:bg-slate-900"
+                            onClick={() => setPage(totalPages)}
+                        >
+                            <span>{totalPages}</span>
+                        </div>
+                    </>
+                )}
                 <button
                     type="button"
                     onClick={handleNextButton}

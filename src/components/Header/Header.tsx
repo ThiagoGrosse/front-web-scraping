@@ -4,17 +4,21 @@ import Link from "next/link"
 
 export const Header = () => {
     return (
-        <header className="flex justify-between items-center h-24 border-b border-white w-full relative">
-            <Link href={'/'} className="relative flex">
-                <span className="text-[10px] relative">WEB
-                    <span className="text-xl absolute mt-1">Scraping
-                    </span>
-                </span>
-            </Link>
-            <div className="flex gap-5">
-                <ThemeSelect />
-                <DropMenuHeader />
-            </div>
-        </header>
+        <div className="bg-slate-600 w-full dark:bg-background">
+            <header className="bg-slate-600 dark:bg-background h-24 dark:border-b dark:border-white max-w-xs sm:max-w-md lg:max-w-3xl xl:max-w-4xl mx-auto">
+                <div className="flex h-full justify-between items-center w-full">
+                    <Link href={'/'} className="-mt-4 relative flex text-white">
+                        <span className="text-[10px] relative">WEB
+                            <span className="text-2xl absolute mt-1">Scraping
+                            </span>
+                        </span>
+                    </Link>
+                    <div className="flex gap-5">
+                        <ThemeSelect />
+                        <DropMenuHeader />
+                    </div>
+                </div>
+            </header>
+        </div>
     )
 }

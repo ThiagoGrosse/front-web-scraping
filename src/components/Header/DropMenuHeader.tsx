@@ -17,7 +17,7 @@ export const DropMenuHeader = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" className="bg-slate-300 dark:bg-transparent">
                     <AlignJustify />
                 </Button>
             </DropdownMenuTrigger>
@@ -32,7 +32,7 @@ export const DropMenuHeader = () => {
                         <UserPlus size={18} strokeWidth={1.2} /> Cadastrar usuário
                     </div>
                 </DropdownMenuItem>
-                <hr className="border-0 h-px bg-gray-300 my-2"/>
+                <hr className="border-0 h-px bg-gray-300 my-2" />
                 <DropdownMenuItem>
                     <div className="flex items-center gap-2">
                         <LogOut size={18} strokeWidth={1.2} /> Logout
@@ -40,6 +40,5 @@ export const DropMenuHeader = () => {
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
-
     );
 };

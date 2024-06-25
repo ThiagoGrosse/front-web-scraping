@@ -22,16 +22,29 @@ export default function Home() {
 
     useEffect(() => {
         const getDataResponse = async () => {
-            const res = await getData(perPage, page);
-            if (res.data.success) {
-                setData(res.data);
-                setTotalPage(Math.round(res.data.countResult / perPage));
-            } else {
-                setDataError(res.data);
+            try {
+                const res = await getData(perPage, page);
+                if (res.data.success) {
+                    setData(res.data);
+                    setTotalPage(Math.round(res.data.countResult / perPage));
+                } else {
+                    setDataError(res.data);
+                }
+            } catch (error) {
+                setDataError({
+                    success: false,
+                    error: "Not found",
+                    response: {
+                        Error: "Ocorreu um erro, não foi possível carregar os dados."
+                    }
+                });
+            } finally {
+                setLoading(false);
             }
-        }
+        };
+
         getDataResponse();
-        setLoading(false);
+
     }, [perPage, page])
 
     const handleSetPerPage = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -39,25 +52,26 @@ export default function Home() {
     }
 
     return (
-        <div className='my-10'>
-            {data?.success && data?.response.length > 0 && (
-                <div className="mb-5">
-                    <SearchForm
-                        perPage={perPage}
-                        setPage={setPage}
-                        setDataSearch={setDataSearch}
-                        setDataError={setDataError}
-                        setTotalPage={setTotalPage}
+        <div className='my-6 lg:grid lg:grid-cols-2 gap-5 items-center'>
+            {!dataError && data?.success && data?.response.length > 0 && (
+                <div className="mb-20 lg:mb-4 h-20 col-span-2 lg:grid lg:grid-cols-3">
+
+                    <div className="bg-slate-600 dark:bg-slate-900 rounded-md lg:col-span-2">
+                        <SearchForm
+                            perPage={perPage}
+                            setPage={setPage}
+                            setDataSearch={setDataSearch}
+                            setDataError={setDataError}
+                            setTotalPage={setTotalPage}
+                        />
+                    </div>
+
+                    <ItemsPerPage
+                        handleSetPerPage={handleSetPerPage}
+                        page={page}
+                        totalPages={totalPages}
                     />
                 </div>
-            )}
-
-            {!dataError && (
-                <ItemsPerPage
-                    handleSetPerPage={handleSetPerPage}
-                    page={page}
-                    totalPages={totalPages}
-                />
             )}
 
             {!dataError && dataSearch?.success && dataSearch?.response.length > 0 && (
@@ -69,7 +83,7 @@ export default function Home() {
             )}
 
             {!dataError && data?.success && data?.response.length > 0 && (
-                <div className="mt-10">
+                <div className="mt-6 col-span-2">
                     <Paginate page={page} setPage={setPage} setPerPage={setPerPage} totalPages={totalPages} />
                 </div>
             )}
